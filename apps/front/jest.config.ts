@@ -3,7 +3,7 @@ export default {
   displayName: 'front',
   preset: '../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../coverage/front',
+  coverageDirectory: '../coverage/apps/front',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
