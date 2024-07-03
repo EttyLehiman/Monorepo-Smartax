@@ -1,0 +1,32 @@
+#divHover:hover{
+    background-color: rgb(240, 240, 240);
+    cursor: pointer;
+    
+}
+.bounce {
+  transform: scale(1.1);
+}
+.green-checkbox .p-checkbox-box {
+  background-color: green;
+}
+.ql-formats {
+  display: flex;
+  align-items: center;
+}
+
+.ql-formats button {
+  margin-right: 5px;
+}
+/* .card {
+    width: 200px; 
+    height: 150px; 
+    font-size: 12px; 
+  } */
+  
+  /* .card .p-menuitem-link {
+    padding: 5px; 
+  } */
+  
+  /* .card .pi {
+    font-size: 1rem; 
+  } */

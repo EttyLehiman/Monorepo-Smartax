@@ -1,0 +1,115 @@
+<!-- <p>communication-logs works!</p>
+
+<button>הוספת שיחה</button>
+
+<table>טבלת שיחות
+    <tr>
+        <th>תאריך</th>
+        <th>סוג</th>
+        <th>תקציר</th>
+        <th>עובד מטפל</th>
+    </tr>
+    <tr *ngFor="let i of fruits">
+        <td> {{i}} </td>
+    </tr>
+</table>
+ -->
+
+<div class="p-grid">
+  <h2 class="p-my-4">Communications</h2>
+  <ul class="p-list-group">
+    <li class="p-list-group-item" *ngFor="let communication of communications">
+      <ng-container *ngIf="communication">
+        {{ communication.date | date: 'yyyy-MM-dd' }} - {{ communication.type }}: {{ communication.summary }}
+        <button class="p-button p-button-warning p-button-sm p-float-right p-ml-2" (click)="selectCommunication(communication)">Edit</button>
+        <button class="p-button p-button-danger p-button-sm p-float-right" (click)="deleteCommunication(communication._id!)">Delete</button>
+      </ng-container>
+    </li>
+  </ul>
+</div>
+
+<div class="p-grid">
+  <h2 class="p-my-4">Create New Communication</h2>
+  <form (ngSubmit)="createCommunication()" #createForm="ngForm" class="form-background">
+    <div class="p-field">
+      <label for="clientName">Client Name</label>
+      <input type="text" class="p-inputtext" id="clientName" [(ngModel)]="newCommunication.client.name" name="clientName" required>
+    </div>
+    <div class="p-field">
+      <label for="contactInfo">Contact Info</label>
+      <input type="email" class="p-inputtext" id="contactInfo" [(ngModel)]="newCommunication.client.contactInfo" name="contactInfo" required>
+    </div>
+    <div class="p-field">
+      <label for="businessName">Business Name</label>
+      <input type="text" class="p-inputtext" id="businessName" [(ngModel)]="newCommunication.client.businessName" name="businessName" required>
+    </div>
+    <div class="p-field">
+      <label for="source">Source</label>
+      <input type="text" class="p-inputtext" id="source" [(ngModel)]="newCommunication.client.source" name="source" required>
+    </div>
+    <div class="p-field">
+      <label for="status">Status</label>
+      <input type="text" class="p-inputtext" id="status" [(ngModel)]="newCommunication.client.status" name="status" required>
+    </div>
+    <div class="p-field">
+      <label for="date">Date</label>
+      <input type="date" class="p-inputtext" id="date" [(ngModel)]="newCommunication.date" name="date" required>
+    </div>
+    <div class="p-field">
+      <label for="type">Type</label>
+      <input type="text" class="p-inputtext" id="type" [(ngModel)]="newCommunication.type" name="type" required>
+    </div>
+    <div class="p-field">
+      <label for="summary">Summary</label>
+      <textarea class="p-textarea" id="summary" [(ngModel)]="newCommunication.summary" name="summary" rows="3" required></textarea>
+    </div>
+    <div class="p-field">
+      <label for="assignedTo">Assigned To</label>
+      <p-dropdown [options]="users" [(ngModel)]="newCommunication.assignedTo" name="assignedTo" optionLabel="label" placeholder="Select an assigned user"></p-dropdown>
+    </div>
+    <button type="submit" class="p-button" [disabled]="!createForm.form.valid">Create Communication</button>
+  </form>
+</div>
+
+<div *ngIf="selectedCommunication" class="p-grid">
+  <h2 class="p-my-4">Edit Communication</h2>
+  <form (ngSubmit)="updateCommunication()" class="form-background">
+    <div class="p-field">
+      <label for="editClientName">Client Name</label>
+      <input type="text" class="p-inputtext" id="editClientName" [(ngModel)]="selectedCommunication.client.name" name="editClientName" required>
+    </div>
+    <div class="p-field">
+      <label for="editContactInfo">Contact Info</label>
+      <input type="email" class="p-inputtext" id="editContactInfo" [(ngModel)]="selectedCommunication.client.contactInfo" name="editContactInfo" required>
+    </div>
+    <div class="p-field">
+      <label for="editBusinessName">Business Name</label>
+      <input type="text" class="p-inputtext" id="editBusinessName" [(ngModel)]="selectedCommunication.client.businessName" name="editBusinessName" required>
+    </div>
+    <div class="p-field">
+      <label for="editSource">Source</label>
+      <input type="text" class="p-inputtext" id="editSource" [(ngModel)]="selectedCommunication.client.source" name="editSource" required>
+    </div>
+    <div class="p-field">
+      <label for="editStatus">Status</label>
+      <input type="text" class="p-inputtext" id="editStatus" [(ngModel)]="selectedCommunication.client.status" name="editStatus" required>
+    </div>
+    <div class="p-field">
+      <label for="editDate">Date</label>
+      <input type="date" class="p-inputtext" id="editDate" [(ngModel)]="selectedCommunication.date" name="editDate" required>
+    </div>
+    <div class="p-field">
+      <label for="editType">Type</label>
+      <input type="text" class="p-inputtext" id="editType" [(ngModel)]="selectedCommunication.type" name="editType" required>
+    </div>
+    <div class="p-field">
+      <label for="editSummary">Summary</label>
+      <textarea class="p-textarea" id="editSummary" [(ngModel)]="selectedCommunication.summary" name="editSummary" rows="3" required></textarea>
+    </div>
+    <div class="p-field">
+      <label for="editAssignedTo">Assigned To</label>
+      <p-dropdown [options]="users" [(ngModel)]="selectedCommunication.assignedTo" name="editAssignedTo" optionLabel="label" placeholder="Select an assigned user"></p-dropdown>
+    </div>
+    <button type="submit" class="p-button">Update Communication</button>
+  </form>
+</div>

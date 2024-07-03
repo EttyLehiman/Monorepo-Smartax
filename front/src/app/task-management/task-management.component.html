@@ -1,0 +1,149 @@
+
+<!-- <p-dropdown [options]="options" [(ngModel)]="selectedOption" placeholder="Select an option" optionLabel="name" [showClear]="true" [(ngModel)]="searchTerm"></p-dropdown> -->
+<p-menu>
+  <ng-template pTemplate="start">
+    <p-button icon="pi pi-filter" label="Filter" (click)="toggleFilter()"></p-button>
+  </ng-template>
+</p-menu>
+
+<p-panel *ngIf="showFilter">
+  <div class="filter-container">
+    <div>
+      <label for="deadlineRange">Deadline Range:</label>
+      <p-calendar id="deadlineRange" [(ngModel)]="filter.deadlineRange" selectionMode="range"></p-calendar>
+    </div>
+    <div>
+      <label for="client">Client:</label>
+      <p-autoComplete id="client" [(ngModel)]="filter.client" [suggestions]="clientSuggestions" (completeMethod)="searchClients($event)" field="name"></p-autoComplete>
+    </div>
+    <div>
+      <label for="user">User:</label>
+      <p-autoComplete id="user" [(ngModel)]="filter.user" [suggestions]="userSuggestions" (completeMethod)="searchUsers($event)" field="name"></p-autoComplete>
+    </div>
+    <div>
+      <label for="taskName">Task Name:</label>
+      <p-autoComplete id="taskName" [(ngModel)]="filter.taskName" [suggestions]="taskNameSuggestions" (completeMethod)="searchTaskNames($event)" field="name"></p-autoComplete>
+    </div>
+    <div>
+      <label for="tag">Tag:</label>
+      <p-autoComplete id="tag" [(ngModel)]="filter.tag" [suggestions]="tagSuggestions" (completeMethod)="searchTags($event)" field="name"></p-autoComplete>
+    </div>
+    <!-- <p-button label="Apply Filter" (click)="applyFilter()"></p-button> -->
+  </div>
+</p-panel>
+
+
+<input id="float-input" type="text" placeholder="Task name" size="30" pInputText [(ngModel)]="searchTerm"> 
+<button id="disabled-btn" type="button" (click)="searchTask()" pButton label="Search"></button>
+<button [routerLink]="['/taskSpe', 'create']" pButton id="addBtn" type="button" icon="pi pi-plus" label="Add Task" ></button>
+
+<p-panel *ngIf="filteredTasks.length > 0" header="">
+  <p-table [value]="filteredTasks">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Assignees</th>
+        <th>Due Date</th>
+        <th>Tags</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-task>
+      <tr>
+        <td>{{ task.taskName }}</td>
+        <td>
+          <div *ngFor="let assignee of task.assignees" class="assignee-badge">{{ assignee }}</div>
+        </td>
+        <td>{{ task.dueDate | date:'shortDate' }}</td>
+        <td>{{ task.tags }}</td>
+        <td><button [routerLink]="['/taskSpe', task._id]" pButton icon="pi pi-pencil" label="Edit"></button></td>
+        <td><button pButton type="button" icon="pi pi-trash" label="Delete" class="p-button-danger" (click)="confirmDelete(task._id)"></button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+<!-- To Do Tasks Table -->
+<p-panel *ngIf="filteredTasks.length == 0" header="To Do" >
+  <p-table [value]="toDoTasks">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Assignees</th>
+        <th>Due Date</th>
+        <th>Tags</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-task>
+      <tr>
+        <td>{{ task.taskName }}</td>
+        <td>
+          <div *ngFor="let assignee of task.assignees" class="assignee-badge">{{ assignee }}</div>
+        </td>
+        <td>{{ task.dueDate | date:'shortDate' }}</td>
+        <td>{{ task.tags }}</td>
+        <td><button [routerLink]="['/taskSpe', task._id]" pButton icon="pi pi-pencil" label="Edit"></button></td>
+        <td><button pButton type="button" icon="pi pi-trash" label="Delete" class="p-button-danger" (click)="confirmDelete(task._id)" ></button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+<!-- In Progress Tasks Table -->
+<p-panel *ngIf="filteredTasks.length == 0" header="In Progress">
+  <p-table [value]="inProgressTasks">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Assignees</th>
+        <th>Due Date</th>
+        <th>Tags</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-task>
+      <tr>
+        <td>{{ task.taskName }}</td>
+        <td>
+          <div *ngFor="let assignee of task.assignees" class="assignee-badge">{{ assignee }}</div>
+        </td>
+        <td>{{ task.dueDate | date:'shortDate' }}</td>
+        <td>{{ task.tags }}</td>
+        <td><button [routerLink]="['/taskSpe', task._id]" pButton icon="pi pi-pencil" label="Edit"></button></td>
+        <td><button pButton type="button" icon="pi pi-trash" label="Delete" class="p-button-danger" (click)="confirmDelete(task._id)" ></button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+<!-- Done Tasks Table -->
+<p-panel *ngIf="filteredTasks.length == 0" header="Done">
+  <p-table [value]="doneTasks">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Assignees</th>
+        <th>Due Date</th>
+        <th>Tags</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-task>
+      <tr>
+        <td>{{ task.taskName }}</td>
+        <td>
+          <div *ngFor="let assignee of task.assignees" class="assignee-badge">{{ assignee }}</div>
+        </td>
+        <td>{{ task.dueDate | date:'shortDate' }}</td>
+        <td>{{ task.tags }}</td>
+        <td><button [routerLink]="['/taskSpe', task._id]" pButton icon="pi pi-pencil" label="Edit"></button></td>
+        <td><button pButton type="button" icon="pi pi-trash" label="Delete" class="p-button-danger" (click)="confirmDelete(task._id)"></button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>

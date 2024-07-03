@@ -1,0 +1,22 @@
+<p-fileUpload
+name="file"
+(onSelect)="onFileSelect($event)"
+[customUpload]="true"
+(uploadHandler)="upload()"
+[style]="{'margin-bottom': '20px'}"
+[auto]="true"
+chooseIcon="pi pi-cloud-upload"
+chooseLabel=" ">
+</p-fileUpload>
+<!-- <div *ngIf="fileUrl">
+  <ng-container [ngSwitch]="fileType" width="100%">
+    <img *ngSwitchCase="'image/jpg'" [src]="fileUrl" alt="Image" width="50%">
+    <img *ngSwitchCase="'image/png'" [src]="fileUrl" alt="Image" width="100%">
+    <iframe *ngSwitchCase="'application/pdf'" [src]="fileUrl" width="100%" height="500px"></iframe>
+    <video *ngSwitchCase="'video/mp4'" [src]="fileUrl" width="100%" controls></video>
+    <audio *ngSwitchCase="'audio/mp3'" [src]="fileUrl" controls></audio>
+    <iframe *ngSwitchDefault [src]="fileUrl" width="100%" height="500px"></iframe>
+  </ng-container>
+</div> -->
+
+  

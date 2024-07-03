@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <label for="searchName">Search by Name:</label>
+      <p-autoComplete 
+        [(ngModel)]="selectedClient" 
+        [suggestions]="filteredClients"
+        (completeMethod)="filterClients($event.query)" 
+        (onSelect)="selectClient($event)" 
+        [minLength]="1"
+        placeholder="Search clients"
+        field="name"
+        [dropdown]="true">
+        <ng-template let-client pTemplate="item">
+          client name - {{ client.name }}  |  client.businessName - {{ client.businessName }}
+        </ng-template>
+      </p-autoComplete>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12">
+      <h3>Clients List</h3>
+      <ul class="list-group">
+        <li *ngFor="let client of clients" class="list-group-item" (click)="selectClientFromList(client)">
+          client name - {{ client.name }}  |  client.businessName - {{ client.businessName }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
