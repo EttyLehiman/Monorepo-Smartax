@@ -3,13 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Communication } from '../_models/communication.module';
-
 @Injectable({
   providedIn: 'root'
 })
 export class CommunicationService {
 
-  private apiUrl = 'http://localhost:8080/communications'; 
+  private apiUrl = 'http://localhost:8080/communications';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -54,7 +53,7 @@ export class CommunicationService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`); 
+      console.error(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
   }

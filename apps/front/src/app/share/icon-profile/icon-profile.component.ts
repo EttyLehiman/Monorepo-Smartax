@@ -1,7 +1,15 @@
 import { Component, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-icon-profile',
+  standalone: true,
+  imports: [
+    FormsModule,
+    AvatarModule
+    
+  ],
   templateUrl: './icon-profile.component.html',
   styleUrl: './icon-profile.component.css'
 })
@@ -13,7 +21,9 @@ export class IconProfileComponent {
   @Input() email: string | undefined;
 
   // function - hash that create color profile
+
   getColor(name: string): string {
+    
     const hash = name
       .split('')
       .reduce((acc, char) => char.codePointAt(0)! + ((acc << 5) - acc), 0);

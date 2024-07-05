@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { HashPasswordService } from '../_services/hash-password.service';
 import { AUTH_ENDPOINT } from '../api-urls';
+import { Role } from '../_models/role.module';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -35,18 +36,22 @@ export class AuthService {
     return this.http.post(this.apiUrl + '/signout', {}, httpOptions);
   }
 
+  
 
-   getCurrentRole(): Observable<number> {
+
+   getCurrentRole(): Observable<Role> {
     const token = JSON.parse(sessionStorage.getItem('auth-user') + '')?.access_token;
     const headers = {
       'Authorization': `Bearer ${token}`
     };
 
-    return this.http.get<number>(this.apiUrl + '/current-role', { headers }).pipe(
+    return this.http.get<Role>(this.apiUrl + '/current-role', { headers }).pipe(
       map(role => role),
+      
       catchError(error => {
         console.error('An error occurred:', error);
-        return throwError(10);
+        const err:Role = {name:'guest', level:10};
+        return throwError(err);
       })
     );
 

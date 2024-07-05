@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Tag } from '../_models/tag.module'; // Update the path according to the location of your model
 
 import { Observable, catchError, of } from 'rxjs';
-
+import { TAG_ENDPOINT } from '../api-urls';
 @Injectable({
   providedIn: 'root'
 })
 export class TagService {
 
-  private apiUrl = 'http://localhost:3000/tags'; // Base URL for the Client API
+  private apiUrl = TAG_ENDPOINT; // Base URL for the Client API
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }) // Define headers for HTTP requests

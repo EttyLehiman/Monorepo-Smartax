@@ -1,7 +1,7 @@
 import { Role } from "./role.module";
 
 export interface User {
-  _id?: string;
+  _id: string;
   userName: string;
   email: string;
   passwordHash: string;

@@ -3,14 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Client } from '../_models/client.module'; // Update the path according to the location of your model
-
+import { CLIENT_ENDPOINT } from '../api-urls';
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
 
-  private apiUrl = 'http://localhost:3000/clients'; // Base URL for the Client API
-
+  // private apiUrl = CLIENT_ENDPOINT; // Base URL for the Client API
+  private apiUrl = 'http://localhost:8080/clients'; // Base URL for the Client API
+  // private apiUrl = '/api/clients';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }) // Define headers for HTTP requests
   };
@@ -34,10 +35,10 @@ export class ClientService {
   }
 
   // Search for a Client by ID
-  searchClient(id: string): Observable<Client[]> {
-    return this.http.post<Client[]>(`${this.apiUrl}/searchClient`, { id }, this.httpOptions)
+  searchClient(id: string): Observable<Client> {
+    return this.http.post<Client>(`${this.apiUrl}/searchClient`, { id }, this.httpOptions)
       .pipe(
-        catchError(this.handleError<Client[]>('searchClient', []))
+        catchError(this.handleError<Client>('searchClient'))
       );
   }
 

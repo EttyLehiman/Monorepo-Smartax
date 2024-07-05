@@ -1,42 +1,13 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2022",
-    "useDefineForClassFields": false,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    "outDir": "../../dist/out-tsc",
+    "types": ["jest", "node"],
     "baseUrl": ".",
     "paths": {
       "@app/*": ["apps/front/src/app/*"]
-      
     }
   },
-  "files": [],
-  // "baseUrl": ".",
-  //   "paths": {
-  //     "@app/*": ["apps/front/src/app/*"]
-  //   },
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.editor.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-    
-  ],
-  "extends": "../tsconfig.base.json",
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+  "include": ["src/**/*.ts", "../../libs/**/*.ts", "src/polyfills.ts"],
+  "exclude": ["node_modules", "dist"]
 }

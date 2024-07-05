@@ -12,10 +12,12 @@ export class DocumentService {
     return this.http.post(DOCS_ENDPOINT, formData)
   }
   public getviewLink(fileId: string): Observable<any> {
-    return this.http.get(`${DOCS_ENDPOINT}/limk/${fileId}`);
+    return this.http.get(`${DOCS_ENDPOINT}/link/${fileId}`);
   }
   public viewFile(fileId: string): Observable<Blob> {
     return this.http.get(`${DOCS_ENDPOINT}/file/${fileId}`, { responseType: 'blob' });
   }
-  
+  public getAllFiles(client_id:string): Observable<any> {
+    return this.http.get(`${DOCS_ENDPOINT}/files/${client_id}`);
+  }
 }

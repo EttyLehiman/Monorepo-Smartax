@@ -1,9 +1,14 @@
+
 import { Component } from '@angular/core';
-import { Subscription, map } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { StorageService } from './_services/storage.service';
 import { AuthService } from './_services/auth.service';
 import { EventBusService } from './_shared/event-bus.service';
 import { ToolBarService } from './_services/tool-bar.service';
+import { TokenService } from './_services/token.service';
+import { Router, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
+import { ToolBarComponent } from './tool-bar/tool-bar.component';
+import { LoginComponent } from './pages/login/login.component';
 
 // import { RouterTestingModule } from '@angular/router/testing';
 // import { TestBed } from '@angular/core/testing';
@@ -16,10 +21,11 @@ import { ToolBarService } from './_services/tool-bar.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [LoginComponent,RouterLinkActive, RouterLink, ToolBarComponent, RouterOutlet, ToolBarComponent]
 })
 export class AppComponent {
-  private roles: string[] = [];
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
@@ -33,27 +39,18 @@ export class AppComponent {
     private storageService: StorageService,
     private authService: AuthService,
     private eventBusService: EventBusService,
-    private toolbarService: ToolBarService
+    private toolbarService: ToolBarService,
+    private tokenServise: TokenService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
 
     if (this.isLoggedIn) {
-      const user = this.storageService.getUser();
-      this.roles = user.roles;
-      this.authService.getCurrentRole().subscribe(
-        {
-          next: role =>
-            this.toolbarItems = this.toolbarService.getCurrentItems(role),
-
-        }
-
-      );
-      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-      this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
-
-      this.username = user.username;
+      const user = this.tokenServise.getToken();
+      const currentRole = this.tokenServise.getCurrentDetail("role")
+      this.toolbarItems = this.toolbarService.getCurrentItems(currentRole.level)
     }
 
     this.eventBusSub = this.eventBusService.on('logout', () => {
@@ -66,8 +63,8 @@ export class AppComponent {
       next: res => {
         console.log(res);
         this.storageService.clean();
-
-        window.location.reload();
+        // window.location.reload();
+        this.router.navigate(['/home']);
       },
       error: err => {
         console.log(err);

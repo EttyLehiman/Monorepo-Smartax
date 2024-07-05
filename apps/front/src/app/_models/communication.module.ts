@@ -1,9 +1,8 @@
-import { Client } from './client.module';
 import { SelectItem } from 'primeng/api';
 
 export interface Communication {
   _id?: string;
-  client: Client;
+  client: string; // ObjectId as string
   date: Date;
   type: string;
   summary: string;

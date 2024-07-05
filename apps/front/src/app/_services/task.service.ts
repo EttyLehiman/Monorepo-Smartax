@@ -2,13 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { Task } from '../_models/task.module';
+import { TASK_ENDPOINT } from '../api-urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  private apiUrl = 'http://localhost:8080/tasks'; // Base URL for the Client API
+  private apiUrl = TASK_ENDPOINT // Base URL for the Client API
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }) // Define headers for HTTP requests
@@ -24,9 +25,9 @@ export class TaskService {
       );
   }
 
-  // Get all Clients
+  // Get all Tasks
   getAllTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.apiUrl}`)
+    return this.http.get<Task[]>(`${this.apiUrl+'/findAll'}`)
       .pipe(
         catchError(this.handleError<Task[]>('getAllTasks', []))
       );
@@ -34,6 +35,8 @@ export class TaskService {
 
   // Search for a Client by ID
   searchTask(id: string): Observable<Task> {
+    console.log("id in FE"+id );
+    
     return this.http.post<Task>(`${this.apiUrl}/findOne`, { id }, this.httpOptions)
       .pipe(
         catchError(this.handleError<Task>('findOne'))
@@ -41,16 +44,16 @@ export class TaskService {
   }
 
   // Update an existing Client
-  updateTask(client: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}`, client, this.httpOptions)
+  updateTask(id:string, task: Task): Observable<Task> {
+    return this.http.put<Task>(`${this.apiUrl}/update/${id}`, task, this.httpOptions)
       .pipe(
-        catchError(this.handleError<Task>('updateClient'))
+        catchError(this.handleError<Task>('updateTask'))
       );
   }
 
   // Delete a Task by ID
   deleteTask(id: string): Observable<boolean> {
-    return this.http.delete<boolean>(`${this.apiUrl}`, { ...this.httpOptions, body: { id } })
+    return this.http.delete<boolean>(`${this.apiUrl}/delete`, { ...this.httpOptions, body: { id } })
       .pipe(
         catchError(this.handleError<boolean>('deleteTask', false))
       );
